@@ -1,13 +1,9 @@
 package com.example.fangchan.until;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
 
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.util.*;
 
@@ -19,58 +15,10 @@ import java.util.*;
  */
 public class BaseController {
 
-    /**
-     * 积分
-     */
-    //同行推荐获得积分
-    @Value("${kuaidyuantuijian.name}")
-    public String kuaidyuantuijianName;
-    @Value("${kuaidyuantuijian.value}")
-    public Integer kuaidyuantuijianValue;
-    @Value("${tuijian.name}")
-    public String tuijianName;
-    @Value("${tuijian.value}")
-    public Integer tuijianValue;
-    //签到
-    @Value("${qiandao.name}")
-    public String qiandaoName;
-    @Value("${qiandao.value}")
-    public Integer qiandaoValue;
-    //取件
-    @Value("${qujian.name}")
-    public String qujianName;
-    @Value("${qujian.value}")
-    public Integer qujianValue;
-    //收件
-    @Value("${shoujian.name}")
-    public String shoujianName;
-    @Value("${shoujian.value}")
-    public Integer shoujianValue;
-    //延迟
-    @Value("${yanchi.name}")
-    public String yanchiName;
-    @Value("${yanchi.value}")
-    public Integer yanchiValue;
-    //兑换
-    @Value("${duihuan.name}")
-    public String duihuanName;
-    @Value("${duihuan.value}")
-    public Integer duihuanValue;
-    //满  方可提现
-    @Value("${fulquota.value}")
-    public Long fulquotavalue;
-    //限额
-    @Value("${quota.value}")
-    public Long quotavalue;
-    //每件钱数
-    @Value("${eachmnoney.value}")
-    public Double eachmnoneyvalue;
-    //官宣文件地址
-    @Value("${pathName}")
-    public String pathName;
-    @Value("${realmName}")
-    public String realmName;
 
+    /**
+     * redis
+     */
     @Autowired
     public RedisTemplate redisTemplate;
 
