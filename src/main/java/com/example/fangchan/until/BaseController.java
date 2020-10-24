@@ -18,6 +18,10 @@ public class BaseController {
 
 
     /**
+     * 返回状态码
+     */
+    public static final String OK = "2000";
+    /**
      * redis
      */
     @Autowired

@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -52,6 +53,7 @@ public class TScoreRecord implements Serializable {
     private Integer num;
 
     @TableField(value = "CREATE_TIME", fill = FieldFill.INSERT)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
 
     @TableField(value = "MODIFY_TIME", fill = FieldFill.INSERT_UPDATE)

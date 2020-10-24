@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -62,9 +63,10 @@ public class TOrderWechat implements Serializable {
      * 砍价金额
      */
     @TableField("MONEY")
-    private Double money;
+    private Integer money;
 
     @TableField(value = "CREATE_TIME", fill = FieldFill.INSERT)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
 
     @TableField(value = "MODIFY_TIME", fill = FieldFill.INSERT_UPDATE)

@@ -4,12 +4,12 @@ import com.baomidou.mybatisplus.annotation.IdType;
 
 import java.util.Date;
 
-import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 
 import java.io.Serializable;
+import java.util.List;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -68,17 +68,30 @@ public class TOrder implements Serializable {
     @TableField("TOP_THREE_NUM")
     private Integer topThreeNum;
 
+    @ApiModelProperty(value = "已砍价人数")
+    @TableField("HELP_NUM")
+    private Integer helpNum;
+
     @ApiModelProperty(value = "一阶段金额")
     @TableField("TOP_ONE")
-    private Double topOne;
+    private Integer topOne;
 
     @ApiModelProperty(value = "二阶段金额")
     @TableField("TOP_TWO")
-    private Double topTwo;
+    private Integer topTwo;
 
     @ApiModelProperty(value = "三阶段金额")
     @TableField("TOP_THREE")
-    private Double topThree;
+    private Integer topThree;
+
+    @ApiModelProperty(value = "已完成金额")
+    @TableField("TOP_MUCH")
+    private Integer topMuch;
+
+
+    @ApiModelProperty(value = "完成度百分比")
+    @TableField("PERCENTAGE")
+    private Double percentage;
 
     @ApiModelProperty(value = "开始时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -98,5 +111,25 @@ public class TOrder implements Serializable {
     @TableField(value = "MODIFY_TIME", fill = FieldFill.INSERT_UPDATE)
     private Date modifyTime;
 
+    /**
+     * 映射 list
+     * <p>
+     * 头像 金额 时间
+     */
+    @TableField(exist = false)
+    private List<TOrderWechat> OWList;
+
+    /**
+     * 判断是否砍过
+     * 0否 1是
+     */
+    @TableField(exist = false)
+    private Integer isHelp;
+
+    /**
+     * 用于特例查询
+     */
+    @TableField(exist = false)
+    private Long wechatIdForSelect;
 
 }
