@@ -1,5 +1,6 @@
 package com.example.fangchan.until;
 
+import com.example.fangchan.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
@@ -21,6 +22,42 @@ public class BaseController {
      */
     @Autowired
     public RedisTemplate redisTemplate;
+
+    /**
+     * 商品
+     */
+    @Autowired
+    public TCommService commService;
+
+    /**
+     * 订单
+     */
+    @Autowired
+    public TOrderService orderService;
+
+    /**
+     * 订单用户映射
+     */
+    @Autowired
+    public TOrderWechatService orderWechatService;
+
+    /**
+     * 积分
+     */
+    @Autowired
+    public TScoreService scoreService;
+
+    /**
+     * 积分记录
+     */
+    @Autowired
+    public TScoreRecordService scoreRecordService;
+
+    /**
+     * 用户
+     */
+    @Autowired
+    public TWechatService wechatService;
 
     /**
      * 获得盐值
@@ -128,6 +165,15 @@ public class BaseController {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    /**
+     * 时间偏移量
+     *
+     * @return
+     */
+    public static Long getTimeId() {
+        return System.currentTimeMillis();
     }
 
 }

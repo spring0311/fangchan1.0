@@ -1,9 +1,8 @@
 package com.example.fangchan.until;
 
-import com.laike.kuaidi.ex.ServiceException;
-import com.laike.kuaidi.ex.userex.PasswordNotMatchException;
-import com.laike.kuaidi.ex.userex.UserNotFoundException;
-import com.laike.kuaidi.ex.userex.UsernameDuplicateException;
+import com.example.fangchan.ex.UsernameDuplicateException;
+import com.example.fangchan.ex.ServiceException;
+import com.example.fangchan.ex.PasswordNotMatchException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -22,9 +21,6 @@ public class GlobalExceptionHandler {
         if (ex instanceof UsernameDuplicateException) {
             json.setCode("4000");
             json.setState("4000");
-        } else if (ex instanceof UserNotFoundException) {
-            json.setCode("4001");
-            json.setState("4001");
         } else if (ex instanceof PasswordNotMatchException) {
             //下单状态!
             json.setCode("4002");

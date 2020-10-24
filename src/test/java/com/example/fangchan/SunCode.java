@@ -27,7 +27,7 @@ public class SunCode {
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
         gc.setOutputDir(projectPath + "/src/main/java");//路径
-        gc.setAuthor("bianJingWei");//设置代码书写的人
+        gc.setAuthor("weizihao");//设置代码书写的人
         gc.setOpen(false);//是否打开资源管理器
         gc.setFileOverride(false);//是否覆盖原来生成的
         gc.setServiceName("%sService");//去Service的I前缀;
@@ -39,7 +39,7 @@ public class SunCode {
         //设置数据源
         DataSourceConfig dsc = new DataSourceConfig();
 
-        dsc.setUrl("jdbc:mysql://rm-bp1p85c37tx828y1hqo.mysql.rds.aliyuncs.com/kuaidi?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8");
+        dsc.setUrl("jdbc:mysql://rm-bp1p85c37tx828y1hqo.mysql.rds.aliyuncs.com:3306/fangchankanjia?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("laike");
         dsc.setPassword("laike123");
@@ -49,8 +49,8 @@ public class SunCode {
         //3.包的配置
         PackageConfig pc = new PackageConfig();
 
-        pc.setModuleName("common");
-        pc.setParent("com.laike.kuaidi");
+        pc.setModuleName("app");
+        pc.setParent("com.example.fangchan");
         pc.setEntity("entity");
         pc.setMapper("mapper");
         pc.setService("service");
@@ -60,7 +60,7 @@ public class SunCode {
 
         //4策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude("t_exchange_time_table");//设置映射表名
+        strategy.setInclude("t_comm");//设置映射表名
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
