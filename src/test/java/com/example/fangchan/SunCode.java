@@ -60,7 +60,7 @@ public class SunCode {
 
         //4策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude("t_comm");//设置映射表名
+        strategy.setInclude("t_top");//设置映射表名
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
