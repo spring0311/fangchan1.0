@@ -4,19 +4,17 @@ package com.example.fangchan.app.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.fangchan.app.entity.*;
+import com.example.fangchan.ex.UsernameDuplicateException;
 import com.example.fangchan.until.BaseController;
 import com.example.fangchan.until.JsonResult;
 import com.example.fangchan.until.QueryRequest;
-import com.sun.org.apache.bcel.internal.generic.LineNumberGen;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.spring.web.json.Json;
 
-import javax.xml.bind.annotation.W3CDomHandler;
-import javax.xml.transform.OutputKeys;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -153,6 +151,7 @@ public class TOrderController extends BaseController {
         dao.setHelpNum(dao.getHelpNum() + 1);
         dao.setTopMuch(dao.getTopMuch() + money);
         dao.setPercentage(dao.getTopMuch() / (dao.getTopThree() * 1.0));
+        dao.setModifyTime(new Date());
         orderService.saveOrUpdate(dao);
         /**
          * 新增记录表
@@ -190,11 +189,54 @@ public class TOrderController extends BaseController {
     /**
      * 添加订单
      *
+     * @param tOrder wechatId用户ID wechatName姓名  wechatPhone手机号
      * @return
      */
     @RequestMapping("add")
     public JsonResult<Void> addOrder(TOrder tOrder) {
+        /**
+         * 判断是否已存在
+         */
+        QueryWrapper<TOrder> queryWrapper = new QueryWrapper<>();
+        queryWrapper.setEntity(tOrder);
+        TOrder dao = orderService.getOne(queryWrapper);
+        if (dao != null) {
+            throw new UsernameDuplicateException("已创建我的砍价!不能重复创建!");
+        }
+        /**
+         * 新建
+         */
+        TTop tTop = tTopService.getById(1);
+        tOrder.setOrderName("天府之国");
+        tOrder.setTopOneNum(tTop.getTopOneNum());
+        tOrder.setTopTwoNum(tTop.getTopTwoNum());
+        tOrder.setTopThreeNum(tTop.getTopThreeNum());
+        tOrder.setTopOne(tTop.getTopOne());
+        tOrder.setTopTwo(tTop.getTopTwo());
+        tOrder.setTopThree(tTop.getTopThree());
+        tOrder.setOpenTime(new Date());
+        /**
+         * 默认倒计时两天
+         */
+        tOrder.setEndTime(getEndTime());
+        tOrder.setCreateTime(new Date());
+        tOrder.setModifyTime(new Date());
+        orderService.saveOrUpdate(tOrder);
         return new JsonResult<>(OK);
+    }
+
+    /**
+     * 订单结束时间
+     *
+     * @return
+     */
+    private Date getEndTime() {
+        Date now = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        calendar.add(Calendar.DAY_OF_YEAR, 2);
+        now = calendar.getTime();
+        return now;
     }
 
     /**
@@ -210,11 +252,19 @@ public class TOrderController extends BaseController {
         scoreRecord.setScoreId(scoreId);
         scoreRecord.setUpDown(0);
         scoreRecord.setNum(10);
+        //用户名
+        scoreRecord.setName(null);
         scoreRecord.setCreateTime(new Date());
         scoreRecord.setModifyTime(new Date());
         scoreRecordService.save(scoreRecord);
     }
 
+    /**
+     * 计算砍价金额
+     *
+     * @param tOrder
+     * @return
+     */
     private Integer getMoney(TOrder tOrder) {
         //只有一个名额
         if (tOrder.getTopThreeNum() - tOrder.getHelpNum() == 1) {
@@ -232,6 +282,7 @@ public class TOrderController extends BaseController {
     }
 
     /**
+     * 是否砍价
      * 用户ID 订单ID
      *
      * @param

@@ -64,6 +64,12 @@ public class BaseController {
     public TWechatService wechatService;
 
     /**
+     * 默认订单数值
+     */
+    @Autowired
+    public TTopService tTopService;
+
+    /**
      * 获得盐值
      *
      * @return 盐值, 永久层数据
