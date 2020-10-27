@@ -2,6 +2,7 @@ package com.example.fangchan.until;
 
 import com.example.fangchan.app.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
 
@@ -15,6 +16,15 @@ import java.util.*;
  * @create: 2020-08-20 16:01
  */
 public class BaseController {
+
+    /**
+     * 微信
+     */
+    @Value("${user.appSecret}")
+    public String userAppSecret;
+
+    @Value("${user.appId}")
+    public String userAppId;
 
 
     /**

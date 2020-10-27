@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -39,6 +40,10 @@ public class TOrder implements Serializable {
     @ApiModelProperty(value = "房产名称")
     @TableField("ORDER_NAME")
     private String orderName;
+
+    @ApiModelProperty(value = "图片")
+    @TableField("PICTURE")
+    private String picture;
 
     @ApiModelProperty(value = "微信登录用户ID")
     @TableField("WECHAT_ID")
@@ -94,20 +99,20 @@ public class TOrder implements Serializable {
     private Double percentage;
 
     @ApiModelProperty(value = "开始时间")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @TableField("OPEN_TIME")
     private Date openTime;
 
     @ApiModelProperty(value = "结束时间")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @TableField("END_TIME")
     private Date endTime;
 
     @TableField(value = "CREATE_TIME", fill = FieldFill.INSERT)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @TableField(value = "MODIFY_TIME", fill = FieldFill.INSERT_UPDATE)
     private Date modifyTime;
 
@@ -131,5 +136,11 @@ public class TOrder implements Serializable {
      */
     @TableField(exist = false)
     private Long wechatIdForSelect;
+
+    /**
+     * 点亮金额
+     */
+    @TableField(exist = false)
+    private Integer money;
 
 }

@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -52,11 +53,16 @@ public class TScoreRecord implements Serializable {
     @TableField("NUM")
     private Integer num;
 
+    @ApiModelProperty(value = "图片")
+    @TableField("PICTURE")
+    private String picture;
+
     @TableField(value = "CREATE_TIME", fill = FieldFill.INSERT)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;
 
     @TableField(value = "MODIFY_TIME", fill = FieldFill.INSERT_UPDATE)
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date modifyTime;
 
 

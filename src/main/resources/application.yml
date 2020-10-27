@@ -62,3 +62,6 @@ mybatis-plus:
     db-config:
       select-strategy: not_empty
       id-type: auto
+user:
+  appId: wx29b30e811dcb792d
+  appSecret: f17c2ff3b6822c05e27c44ab709874d7

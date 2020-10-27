@@ -8,6 +8,7 @@ import com.example.fangchan.ex.UsernameDuplicateException;
 import com.example.fangchan.until.BaseController;
 import com.example.fangchan.until.JsonResult;
 import com.example.fangchan.until.QueryRequest;
+import jdk.nashorn.internal.ir.IfNode;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +39,7 @@ public class TOrderController extends BaseController {
     /**
      * 单独的订单
      *
-     * @param tOrder wechatId 用户ID 或者订单ID
+     * @param tOrder wechatId 用户ID  orderId 或者订单ID
      * @return
      */
     @RequestMapping("getOne")
@@ -49,6 +50,7 @@ public class TOrderController extends BaseController {
         if (mine != null) {
             mine.setOWList(getTOrderWechat(mine));
             mine.setIsHelp(isHelp(mine.getOrderId(), tOrder.getWechatIdForSelect()));
+            mine.setMoney(getMoneyForList(mine));
         }
         return new JsonResult<>(OK, mine);
     }
@@ -66,6 +68,7 @@ public class TOrderController extends BaseController {
     public JsonResult<List<TOrder>> orderList(TOrder tOrder, QueryRequest queryRequest) {
         QueryWrapper<TOrder> queryWrapper = new QueryWrapper<>();
         queryWrapper.lt("PERCENTAGE", 1.00);
+        queryWrapper.ne("USER_ID", 0);
         queryWrapper.orderByDesc("PERCENTAGE");
         Page<TOrder> page = new Page<>(queryRequest.getPageNum(), queryRequest.getPageSize());
         page = orderService.page(page, queryWrapper);
@@ -77,6 +80,8 @@ public class TOrderController extends BaseController {
                 dao.setOWList(getTOrderWechat(dao));
                 //判断是否砍过
                 dao.setIsHelp(isHelp(dao.getOrderId(), tOrder.getWechatIdForSelect()));
+                //点亮进度
+                dao.setMoney(getMoneyForList(dao));
             });
         return new JsonResult<>(OK, tOrders);
     }
@@ -110,12 +115,14 @@ public class TOrderController extends BaseController {
                 three.forEach(dao -> {
                     dao.setOWList(getTOrderWechat(dao));
                     dao.setIsHelp(isHelp(dao.getOrderId(), tOrder.getWechatIdForSelect()));
+                    dao.setMoney(getMoneyForList(dao));
                 });
             return new JsonResult<>(OK, three);
         } else {
             QueryWrapper<TOrder> queryWrapper = new QueryWrapper<>();
             queryWrapper.ne("USER_ID", 0);
             queryWrapper.orderByAsc("CREATE_TIME");
+            queryWrapper.lt("PERCENTAGE", 1.00);
             Page<TOrder> page = new Page<>(queryRequest.getPageNum(), queryRequest.getPageSize());
             page = orderService.page(page, queryWrapper);
             List<TOrder> list = page.getRecords();
@@ -123,6 +130,7 @@ public class TOrderController extends BaseController {
                 list.forEach(dao -> {
                     dao.setOWList(getTOrderWechat(dao));
                     dao.setIsHelp(isHelp(dao.getOrderId(), tOrder.getWechatIdForSelect()));
+                    dao.setMoney(getMoneyForList(dao));
                 });
             return new JsonResult<>(OK);
         }
@@ -189,7 +197,7 @@ public class TOrderController extends BaseController {
     /**
      * 添加订单
      *
-     * @param tOrder wechatId用户ID wechatName姓名  wechatPhone手机号
+     * @param tOrder wechatId 用户ID wechatName 姓名  wechatPhone 手机号
      * @return
      */
     @RequestMapping("add")
@@ -198,16 +206,21 @@ public class TOrderController extends BaseController {
          * 判断是否已存在
          */
         QueryWrapper<TOrder> queryWrapper = new QueryWrapper<>();
-        queryWrapper.setEntity(tOrder);
+        queryWrapper.eq("WECHAT_ID", tOrder.getWechatId());
         TOrder dao = orderService.getOne(queryWrapper);
         if (dao != null) {
             throw new UsernameDuplicateException("已创建我的砍价!不能重复创建!");
         }
+        //添加用户信息
+        TWechat tWechat = wechatService.getById(tOrder.getWechatId());
+        tWechat.setName(tOrder.getWechatName());
+        tWechat.setPhone(tOrder.getWechatPhone());
         /**
          * 新建
          */
         TTop tTop = tTopService.getById(1);
         tOrder.setOrderName("天府之国");
+        tOrder.setPicture("test.jpg");
         tOrder.setTopOneNum(tTop.getTopOneNum());
         tOrder.setTopTwoNum(tTop.getTopTwoNum());
         tOrder.setTopThreeNum(tTop.getTopThreeNum());
@@ -222,7 +235,28 @@ public class TOrderController extends BaseController {
         tOrder.setCreateTime(new Date());
         tOrder.setModifyTime(new Date());
         orderService.saveOrUpdate(tOrder);
+        tWechat.setOrderId(tOrder.getOrderId());
+        tWechat.setModifyTime(new Date());
+        wechatService.saveOrUpdate(tWechat);
         return new JsonResult<>(OK);
+    }
+
+    /**
+     * 点亮金额
+     *
+     * @param tOrder
+     * @return
+     */
+    private Integer getMoneyForList(TOrder tOrder) {
+        if (tOrder.getHelpNum() >= tOrder.getTopThreeNum()) {
+            return tOrder.getTopThree();
+        } else if (tOrder.getHelpNum() >= tOrder.getTopTwoNum()) {
+            return tOrder.getTopTwo();
+        } else if (tOrder.getHelpNum() >= tOrder.getTopOneNum()) {
+            return tOrder.getTopOne();
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -247,7 +281,11 @@ public class TOrderController extends BaseController {
     private void changeScore(Long scoreId) {
         TScore score = scoreService.getById(scoreId);
         score.setSum(score.getSum() + 10);
+        score.setModifyTime(new Date());
         scoreService.saveOrUpdate(score);
+        /**
+         * 积分记录
+         */
         TScoreRecord scoreRecord = new TScoreRecord();
         scoreRecord.setScoreId(scoreId);
         scoreRecord.setUpDown(0);

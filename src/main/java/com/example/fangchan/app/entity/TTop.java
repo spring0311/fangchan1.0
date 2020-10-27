@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -33,6 +34,10 @@ public class TTop implements Serializable {
 
     @TableId(value = "ID", type = IdType.AUTO)
     private Long id;
+
+    @ApiModelProperty(value = "名称")
+    @TableField("TOP_NAME")
+    private String topName;
 
     @ApiModelProperty(value = "一阶段人数")
     @TableField("TOP_ONE_NUM")
@@ -59,9 +64,11 @@ public class TTop implements Serializable {
     private Integer topThree;
 
     @TableField(value = "CREATE_TIME", fill = FieldFill.INSERT)
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;
 
     @TableField(value = "MODIFY_TIME", fill = FieldFill.INSERT_UPDATE)
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date modifyTime;
 
 

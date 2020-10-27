@@ -34,7 +34,7 @@ public class TScoreController extends BaseController {
     /**
      * 我的积分
      *
-     * @param tScore scoreId积分Id
+     * @param tScore scoreId 积分Id
      * @return
      */
     @RequestMapping("mine")
@@ -45,7 +45,7 @@ public class TScoreController extends BaseController {
     /**
      * 积分记录
      *
-     * @param scoreRecord scoreId积分表ID upDown加减
+     * @param scoreRecord scoreId 积分表ID upDown 加减
      * @return
      */
     @RequestMapping("list")
