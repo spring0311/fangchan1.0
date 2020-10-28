@@ -8,7 +8,6 @@ import com.example.fangchan.ex.UsernameDuplicateException;
 import com.example.fangchan.until.BaseController;
 import com.example.fangchan.until.JsonResult;
 import com.example.fangchan.until.QueryRequest;
-import jdk.nashorn.internal.ir.IfNode;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -152,7 +151,7 @@ public class TOrderController extends BaseController {
         /**
          * 计算金额
          */
-        Integer money = getMoney(tOrder);
+        Integer money = getMoney(dao);
         /**
          * 修改订单
          */
@@ -227,10 +226,10 @@ public class TOrderController extends BaseController {
         tOrder.setTopOne(tTop.getTopOne());
         tOrder.setTopTwo(tTop.getTopTwo());
         tOrder.setTopThree(tTop.getTopThree());
-        tOrder.setOpenTime(new Date());
         /**
          * 默认倒计时两天
          */
+        tOrder.setOpenTime(new Date());
         tOrder.setEndTime(getEndTime());
         tOrder.setCreateTime(new Date());
         tOrder.setModifyTime(new Date());
@@ -306,16 +305,17 @@ public class TOrderController extends BaseController {
     private Integer getMoney(TOrder tOrder) {
         //只有一个名额
         if (tOrder.getTopThreeNum() - tOrder.getHelpNum() == 1) {
-            return tOrder.getTopThree() - tOrder.getTopMuch();
+            Integer ret = tOrder.getTopThree() - tOrder.getTopMuch();
+            return ret;
         }
         Integer money = tOrder.getTopThree() - tOrder.getTopMuch();
         Integer people = tOrder.getTopThreeNum() - tOrder.getHelpNum();
         Integer ret = money / people;
-        if (ret <= 100) {
+        if (ret <= 20) {
             return ret;
         }
-        Integer min = ret - 100;
-        Integer max = ret + 100;
+        Integer min = ret - 20;
+        Integer max = ret + 20;
         return new Random().nextInt((max - min) + min);
     }
 
