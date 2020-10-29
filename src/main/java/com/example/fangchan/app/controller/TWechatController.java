@@ -45,12 +45,14 @@ public class TWechatController extends BaseController {
      */
     @RequestMapping("login")
     public JsonResult<TWechat> login(WeChatIV weChatIV) {
+        System.err.println("weChatIV:" + weChatIV);
         /**
          * 得到openid access_token
          */
         String url = getUrl(weChatIV.getCode());
         String getBack = WeChatUtil.httpRequest(url, "get", null);
         JSONObject jsonObject = JSONObject.parseObject(getBack);
+        System.err.println("jsonObject:" + jsonObject);
         String openid = jsonObject.get("openid").toString();
         String accessToken = jsonObject.get("access_token").toString();
         /**
@@ -59,6 +61,7 @@ public class TWechatController extends BaseController {
         String urlForUser = getUrlForUser(openid, accessToken);
         String userBack = WeChatUtil.httpRequest(urlForUser, "get", null);
         JSONObject user = JSONObject.parseObject(userBack);
+        System.err.println("user" + user);
         /**
          * 登陆逻辑
          */
@@ -82,23 +85,22 @@ public class TWechatController extends BaseController {
              * 新建用户与积分表
              */
             TWechat tWechat = new TWechat();
-            Long scoreId = getTimeId();
             tWechat.setOpenId(user.get("openid").toString());
             tWechat.setNickName(user.get("nickname").toString());
             tWechat.setAva(user.get("headimgurl").toString());
             tWechat.setCreateTime(new Date());
             tWechat.setModifyTime(new Date());
-            tWechat.setScoreId(scoreId);
             wechatService.saveOrUpdate(tWechat);
             TScore tScore = new TScore();
-            tScore.setScoreId(scoreId);
             tScore.setWechatId(tWechat.getWechatId());
             tScore.setCreateTime(new Date());
             tScore.setModifyTime(new Date());
             scoreService.saveOrUpdate(tScore);
-            //老用户
+            tWechat.setScoreId(tScore.getScoreId());
+            wechatService.saveOrUpdate(tWechat);
             return tWechat;
         } else {
+            //老用户
             dao.setNickName(user.get("nickname").toString());
             dao.setAva(user.get("headimgurl").toString());
             dao.setModifyTime(new Date());

@@ -57,6 +57,14 @@ public class TScoreRecord implements Serializable {
     @TableField("PICTURE")
     private String picture;
 
+    @ApiModelProperty(value = "0未兑换 1兑换")
+    @TableField("IS_OPEN")
+    private Integer isOpen;
+
+    @ApiModelProperty(value = "兑换人昵称")
+    @TableField("NICK_NAME")
+    private String nickName;
+
     @TableField(value = "CREATE_TIME", fill = FieldFill.INSERT)
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;

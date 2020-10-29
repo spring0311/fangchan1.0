@@ -63,5 +63,5 @@ mybatis-plus:
       select-strategy: not_empty
       id-type: auto
 user:
-  appId: wx29b30e811dcb792d
-  appSecret: f17c2ff3b6822c05e27c44ab709874d7
+  appId: wx16fd3609839cee0a
+  appSecret: 88438e98cb54ca47fc8455d53bcb7ddd

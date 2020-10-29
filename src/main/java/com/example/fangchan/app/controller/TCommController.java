@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.fangchan.app.entity.TComm;
 import com.example.fangchan.app.entity.TScore;
 import com.example.fangchan.app.entity.TScoreRecord;
+import com.example.fangchan.app.entity.TWechat;
 import com.example.fangchan.ex.UsernameDuplicateException;
 import com.example.fangchan.until.BaseController;
 import com.example.fangchan.until.JsonResult;
@@ -60,6 +61,7 @@ public class TCommController extends BaseController {
         QueryWrapper<TScore> scoreQueryWrapper = new QueryWrapper<>();
         scoreQueryWrapper.eq("WECHAT_ID", tComm.getWechatId());
         TScore tScore = scoreService.getOne(scoreQueryWrapper);
+        TWechat tWechat = wechatService.getById(tComm.getWechatId());
         TComm dao = commService.getById(tComm.getCommodityId());
         if (tScore.getSum() < dao.getMoney()) {
             throw new UsernameDuplicateException("积分不足");
@@ -75,6 +77,7 @@ public class TCommController extends BaseController {
          */
         TScoreRecord tScoreRecord = new TScoreRecord();
         tScoreRecord.setScoreId(tScore.getScoreId());
+        tScoreRecord.setNickName(tWechat.getNickName());
         tScoreRecord.setUpDown(1);
         tScoreRecord.setName(dao.getName());
         tScoreRecord.setPicture(dao.getPicture());
