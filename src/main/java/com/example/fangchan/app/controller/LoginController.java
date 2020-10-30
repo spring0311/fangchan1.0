@@ -29,10 +29,10 @@ public class LoginController extends BaseController {
     @RequestMapping("picture")
     public JsonResult<List<String>> getLoginPicture() {
         List<String> list = new ArrayList<>();
-        list.add("http://192.168.3.82:8083/one.jpg");
-        list.add("http://192.168.3.82:8083/two.jpg");
-        list.add("http://192.168.3.82:8083/three.jpg");
-        list.add("http://192.168.3.82:8083/four.jpg");
+        list.add("http://42.192.6.15:8080/picture/one.jpg");
+        list.add("http://42.192.6.15:8080/picture/two.jpg");
+        list.add("http://42.192.6.15:8080/picture/three.jpg");
+        list.add("http://42.192.6.15:8080/picture/four.jpg");
         return new JsonResult<>(OK, list);
     }
 }

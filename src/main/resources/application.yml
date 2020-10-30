@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://rm-bp1p85c37tx828y1hqo.mysql.rds.aliyuncs.com:3306/fangchankanjia?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
+    url: jdbc:mysql://42.192.6.15:3306/fangchankanjia?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
     username: laike
     password: laike123
   jackson:
@@ -63,5 +63,7 @@ mybatis-plus:
       select-strategy: not_empty
       id-type: auto
 user:
-  appId: wx16fd3609839cee0a
-  appSecret: 88438e98cb54ca47fc8455d53bcb7ddd
+  appId: wx17b408c51869158a
+  appSecret: c9717e4eebfd8d2c3c2df54568797b38
+  orderName: 天府之国
+

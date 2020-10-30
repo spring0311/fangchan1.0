@@ -218,9 +218,9 @@ public class TOrderController extends BaseController {
          * 新建
          */
         TTop tTop = tTopService.getById(1);
-        tOrder.setOrderName("天府之国");
+        tOrder.setOrderName(orderName);
         //这个直接给链接
-        tOrder.setPicture("test.jpg");
+        tOrder.setPicture("http://shiji.app12345.cn/picture/test.jpg");
         tOrder.setTopOneNum(tTop.getTopOneNum());
         tOrder.setTopTwoNum(tTop.getTopTwoNum());
         tOrder.setTopThreeNum(tTop.getTopThreeNum());

@@ -3,6 +3,8 @@ package com.example.fangchan;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.UUID;
+
 @SpringBootTest
 class FangchanApplicationTests {
 
@@ -20,10 +22,8 @@ class FangchanApplicationTests {
 
     @Test
     void moneyOne() {
-        Integer i = 5000;
-        Integer j = 5000;
-        Double d = j / (i * 1.0);
-        System.err.println(d);
+        Long uuid = Long.valueOf(UUID.randomUUID().toString());
+        System.err.println(uuid);
     }
 
 }

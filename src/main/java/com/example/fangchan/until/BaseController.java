@@ -26,6 +26,9 @@ public class BaseController {
     @Value("${user.appId}")
     public String userAppId;
 
+    @Value("${user.orderName}")
+    public String orderName;
+
 
     /**
      * 返回状态码
