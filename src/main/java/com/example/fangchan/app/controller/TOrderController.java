@@ -300,24 +300,40 @@ public class TOrderController extends BaseController {
     /**
      * 计算砍价金额
      *
-     * @param tOrder
+     * @param tOrder 50 100 200
      * @return
      */
     private Integer getMoney(TOrder tOrder) {
-        //只有一个名额
-        if (tOrder.getTopThreeNum() - tOrder.getHelpNum() == 1) {
-            Integer ret = tOrder.getTopThree() - tOrder.getTopMuch();
-            return ret;
+        Integer money = 0;
+        Integer people = 0;
+        if (tOrder.getHelpNum() >= tOrder.getTopTwoNum()) {
+            //砍价人数 > 二阶段人数 进入第三阶段砍价
+            money = tOrder.getTopThree() - tOrder.getTopMuch();
+            people = tOrder.getTopThreeNum() - tOrder.getHelpNum();
+        } else if (tOrder.getHelpNum() >= tOrder.getTopOneNum()) {
+            //砍价人数 > 一阶段人数 进入二阶段砍价
+            money = tOrder.getTopTwo() - tOrder.getTopMuch();
+            people = tOrder.getTopTwoNum() - tOrder.getHelpNum();
+        } else {
+            //砍价人数 < 一阶段人数 进入一阶段砍价
+            //一阶段剩余金钱
+            money = tOrder.getTopOne() - tOrder.getTopMuch();
+            //一阶段剩余人数
+            people = tOrder.getTopOneNum() - tOrder.getHelpNum();
         }
-        Integer money = tOrder.getTopThree() - tOrder.getTopMuch();
-        Integer people = tOrder.getTopThreeNum() - tOrder.getHelpNum();
+        if (people == 1) {
+            return money;
+        }
+        //得到平均数
         Integer ret = money / people;
+        //浮动范围为20
         if (ret <= 20) {
             return ret;
         }
         Integer min = ret - 20;
         Integer max = ret + 20;
-        return new Random().nextInt((max - min) + min);
+        int num = (int) (Math.random() * (max - min + 1) + min);
+        return num;
     }
 
     /**
