@@ -83,6 +83,12 @@ public class BaseController {
     public TTopService tTopService;
 
     /**
+     * 轮播图
+     */
+    @Autowired
+    public TPictureService pictureService;
+
+    /**
      * 获得盐值
      *
      * @return 盐值, 永久层数据

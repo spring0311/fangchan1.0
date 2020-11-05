@@ -39,7 +39,7 @@ public class SunCode {
         //设置数据源
         DataSourceConfig dsc = new DataSourceConfig();
 
-        dsc.setUrl("jdbc:mysql://rm-bp1p85c37tx828y1hqo.mysql.rds.aliyuncs.com:3306/fangchankanjia?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8");
+        dsc.setUrl("jdbc:mysql://42.192.6.15:3306/fangchankanjia?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("laike");
         dsc.setPassword("laike123");
@@ -60,7 +60,7 @@ public class SunCode {
 
         //4策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude("t_top");//设置映射表名
+        strategy.setInclude("t_picture");//设置映射表名
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);

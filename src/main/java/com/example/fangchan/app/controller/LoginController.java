@@ -1,5 +1,6 @@
 package com.example.fangchan.app.controller;
 
+import com.example.fangchan.app.entity.TPicture;
 import com.example.fangchan.app.entity.TWechat;
 import com.example.fangchan.until.BaseController;
 import com.example.fangchan.until.JsonResult;
@@ -28,11 +29,12 @@ public class LoginController extends BaseController {
 
     @RequestMapping("picture")
     public JsonResult<List<String>> getLoginPicture() {
+        List<TPicture> pictures = pictureService.list();
         List<String> list = new ArrayList<>();
-        list.add("http://42.192.6.15:8080/picture/one.jpg");
-        list.add("http://42.192.6.15:8080/picture/two.jpg");
-        list.add("http://42.192.6.15:8080/picture/three.jpg");
-        list.add("http://42.192.6.15:8080/picture/four.jpg");
+        if (pictures.size() > 0)
+            pictures.forEach(picture -> {
+                list.add(picture.getUrl());
+            });
         return new JsonResult<>(OK, list);
     }
 }
