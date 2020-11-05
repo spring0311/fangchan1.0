@@ -267,7 +267,7 @@ public class TOrderController extends BaseController {
         Date now = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
-        calendar.add(Calendar.DAY_OF_YEAR, 2);
+        calendar.add(Calendar.HOUR_OF_DAY, endTime);
         now = calendar.getTime();
         return now;
     }

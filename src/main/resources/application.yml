@@ -63,7 +63,8 @@ mybatis-plus:
       select-strategy: not_empty
       id-type: auto
 user:
-  appId: wx17b408c51869158a
-  appSecret: c9717e4eebfd8d2c3c2df54568797b38
+  appId: wxf3eadd5e4a0da254
+  appSecret: 4ce326516a632b75419a1ff46b45788c
   orderName: 天府之国
+  endTime: 48
 

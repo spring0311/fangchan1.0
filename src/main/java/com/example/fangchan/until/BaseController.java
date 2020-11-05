@@ -29,7 +29,8 @@ public class BaseController {
     @Value("${user.orderName}")
     public String orderName;
 
-
+    @Value("${user.endTime}")
+    public Integer endTime;
     /**
      * 返回状态码
      */
