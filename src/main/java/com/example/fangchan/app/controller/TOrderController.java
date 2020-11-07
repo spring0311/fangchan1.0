@@ -106,6 +106,17 @@ public class TOrderController extends BaseController {
             Page<TOrder> pageTwo = new Page<>(1, 10);
             queryWrapper.ne("USER_ID", 0);
             queryWrapper.orderByAsc("CREATE_TIME");
+            if (three.size() > 0) {
+                Long[] ids = new Long[3];
+                for (int i = 0; i < three.size(); i++) {
+                    if (three.get(i) == null) {
+                        ids[i] = i + 0l;
+                    } else {
+                        ids[i] = three.get(i).getOrderId();
+                    }
+                }
+                queryWrapper.notIn("ORDER_ID", ids);
+            }
             pageTwo = orderService.page(pageTwo, queryWrapper);
             List<TOrder> sever = pageTwo.getRecords();
             three.addAll(sever);
@@ -141,7 +152,7 @@ public class TOrderController extends BaseController {
      * @return
      */
     @RequestMapping("help")
-    public JsonResult<Void> changeIsHelp(TOrder tOrder) {
+    public JsonResult<Integer> changeIsHelp(TOrder tOrder) {
         /**
          * 查询到两个 dao
          */
@@ -175,7 +186,7 @@ public class TOrderController extends BaseController {
          * 积分
          */
         changeScore(wechat.getScoreId());
-        return new JsonResult<>(OK);
+        return new JsonResult<>(OK, money);
     }
 
 
@@ -372,4 +383,3 @@ public class TOrderController extends BaseController {
 
 
 }
-
