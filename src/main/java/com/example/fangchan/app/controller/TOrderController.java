@@ -4,6 +4,7 @@ package com.example.fangchan.app.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.fangchan.app.entity.*;
+import com.example.fangchan.ex.UserNotFoundException;
 import com.example.fangchan.ex.UsernameDuplicateException;
 import com.example.fangchan.until.BaseController;
 import com.example.fangchan.until.JsonResult;
@@ -158,6 +159,15 @@ public class TOrderController extends BaseController {
      */
     @RequestMapping("help")
     public JsonResult<Integer> changeIsHelp(TOrder tOrder) {
+        /**
+         * 判断是否砍过价
+         */
+        /*QueryWrapper<TOrderWechat> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("WECHAT_ID", tOrder.getWechatIdForSelect());
+        queryWrapper.eq("ORDER_ID", tOrder.getOrderId());
+        List<TOrderWechat> list = orderWechatService.list(queryWrapper);
+        if (list.size() > 0)
+            throw new UserNotFoundException("已为该砍价单砍过价!");*/
         /**
          * 查询到两个 dao
          */
