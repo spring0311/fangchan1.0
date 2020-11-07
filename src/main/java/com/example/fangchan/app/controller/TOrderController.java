@@ -160,7 +160,7 @@ public class TOrderController extends BaseController {
     @RequestMapping("help")
     public JsonResult<Integer> changeIsHelp(TOrder tOrder) {
         /**
-         * 判断是否砍过价
+         * 判读
          */
         /*QueryWrapper<TOrderWechat> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("WECHAT_ID", tOrder.getWechatIdForSelect());
@@ -173,6 +173,10 @@ public class TOrderController extends BaseController {
          */
         TOrder dao = orderService.getById(tOrder.getOrderId());
         TWechat wechat = wechatService.getById(tOrder.getWechatIdForSelect());
+        //判断砍价结束了嘛
+        if (dao.getHelpNum() == dao.getTopThreeNum()) {
+            throw new UserNotFoundException("砍价已结束!");
+        }
         /**
          * 计算金额
          */
