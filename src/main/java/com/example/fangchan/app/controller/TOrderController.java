@@ -9,6 +9,7 @@ import com.example.fangchan.ex.UsernameDuplicateException;
 import com.example.fangchan.until.BaseController;
 import com.example.fangchan.until.JsonResult;
 import com.example.fangchan.until.QueryRequest;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -158,16 +159,17 @@ public class TOrderController extends BaseController {
      * @return
      */
     @RequestMapping("help")
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public JsonResult<Integer> changeIsHelp(TOrder tOrder) {
         /**
          * 判读
          */
-        /*QueryWrapper<TOrderWechat> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<TOrderWechat> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("WECHAT_ID", tOrder.getWechatIdForSelect());
         queryWrapper.eq("ORDER_ID", tOrder.getOrderId());
         List<TOrderWechat> list = orderWechatService.list(queryWrapper);
         if (list.size() > 0)
-            throw new UserNotFoundException("已为该砍价单砍过价!");*/
+            throw new UserNotFoundException("已为该砍价单砍过价!");
         /**
          * 查询到两个 dao
          */
@@ -228,6 +230,7 @@ public class TOrderController extends BaseController {
      * @param tOrder wechatId 用户ID wechatName 姓名  wechatPhone 手机号
      * @return
      */
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @RequestMapping("add")
     public JsonResult<Void> addOrder(TOrder tOrder) {
         /**
@@ -307,7 +310,8 @@ public class TOrderController extends BaseController {
      *
      * @param scoreId
      */
-    private void changeScore(Long scoreId) {
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void changeScore(Long scoreId) {
         TScore score = scoreService.getById(scoreId);
         score.setSum(score.getSum() + 10);
         score.setModifyTime(new Date());
@@ -332,7 +336,8 @@ public class TOrderController extends BaseController {
      * @param tOrder 50 100 200
      * @return
      */
-    private Integer getMoney(TOrder tOrder) {
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public Integer getMoney(TOrder tOrder) {
         Integer money = 0;
         Integer people = 0;
         if (tOrder.getHelpNum() >= tOrder.getTopTwoNum()) {
