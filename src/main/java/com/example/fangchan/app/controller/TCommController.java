@@ -10,6 +10,7 @@ import com.example.fangchan.ex.UsernameDuplicateException;
 import com.example.fangchan.until.BaseController;
 import com.example.fangchan.until.JsonResult;
 import net.sf.jsqlparser.expression.operators.relational.JsonOperator;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,15 +58,24 @@ public class TCommController extends BaseController {
      * @return
      */
     @RequestMapping("buy")
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public JsonResult<Void> buyComm(TComm tComm) {
         QueryWrapper<TScore> scoreQueryWrapper = new QueryWrapper<>();
         scoreQueryWrapper.eq("WECHAT_ID", tComm.getWechatId());
         TScore tScore = scoreService.getOne(scoreQueryWrapper);
         TWechat tWechat = wechatService.getById(tComm.getWechatId());
         TComm dao = commService.getById(tComm.getCommodityId());
+        if (dao.getNum() == 0) {
+            throw new UsernameDuplicateException("商品不足,请联系管理员!");
+        }
         if (tScore.getSum() < dao.getMoney()) {
             throw new UsernameDuplicateException("积分不足");
         }
+        /**
+         * 商品数量减一
+         */
+        dao.setNum(dao.getNum() - 1);
+        commService.saveOrUpdate(dao);
         /**
          * 兑换 修改总积分
          */
