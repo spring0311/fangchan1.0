@@ -44,6 +44,10 @@ public class TComm implements Serializable {
     @TableField("MONEY")
     private Integer money;
 
+    @ApiModelProperty(value = "库存数量")
+    @TableField("NUM")
+    private Integer num;
+
     @ApiModelProperty(value = "商品名称")
     @TableField("NAME")
     private String name;
