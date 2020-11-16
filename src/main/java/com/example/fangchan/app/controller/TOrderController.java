@@ -45,6 +45,7 @@ public class TOrderController extends BaseController {
     @RequestMapping("getOne")
     public JsonResult<TOrder> getMine(TOrder tOrder) {
         QueryWrapper<TOrder> queryWrapper = new QueryWrapper<>();
+        tOrder.setIsOpen(0);
         queryWrapper.setEntity(tOrder);
         TOrder mine = orderService.getOne(queryWrapper);
         if (mine != null) {
@@ -269,10 +270,11 @@ public class TOrderController extends BaseController {
         tOrder.setTopTwo(tTop.getTopTwo());
         tOrder.setTopThree(tTop.getTopThree());
         /**
-         * 默认倒计时两天
+         * 未激活
          */
-        tOrder.setOpenTime(new Date());
-        tOrder.setEndTime(getEndTime());
+        /*tOrder.setOpenTime(new Date());
+        tOrder.setEndTime(getEndTime());*/
+        tOrder.setIsOpen(1);
         tOrder.setCreateTime(new Date());
         tOrder.setModifyTime(new Date());
         orderService.saveOrUpdate(tOrder);

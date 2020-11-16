@@ -92,6 +92,9 @@ public class TOrder implements Serializable {
     @TableField("TOP_MUCH")
     private Integer topMuch;
 
+    @ApiModelProperty(value = "0激活1没激活")
+    @TableField("IS_OPEN")
+    private Integer isOpen;
 
     @ApiModelProperty(value = "完成度百分比")
     @TableField("PERCENTAGE")
