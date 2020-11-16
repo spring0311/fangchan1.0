@@ -67,7 +67,7 @@ public class TOrderController extends BaseController {
     @RequestMapping("index")
     public JsonResult<List<TOrder>> orderList(TOrder tOrder, QueryRequest queryRequest) {
         QueryWrapper<TOrder> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lt("PERCENTAGE", 1.00);
+        //queryWrapper.lt("PERCENTAGE", 1.00);
         queryWrapper.gt("END_TIME", downThreeDay());
         queryWrapper.ne("USER_ID", 0);
         queryWrapper.orderByDesc("PERCENTAGE");
@@ -109,7 +109,7 @@ public class TOrderController extends BaseController {
         if (queryRequest.getPageNum() == 1) {
             QueryWrapper<TOrder> queryWrapper = new QueryWrapper<>();
             queryWrapper.ne("USER_ID", 0);
-            queryWrapper.lt("PERCENTAGE", 1.00);
+            //queryWrapper.lt("PERCENTAGE", 1.00);
             queryWrapper.gt("END_TIME", downThreeDay());
             queryWrapper.orderByDesc("PERCENTAGE");
             Page<TOrder> page = new Page<>(1, 3);
@@ -118,7 +118,7 @@ public class TOrderController extends BaseController {
             queryWrapper.clear();
             Page<TOrder> pageTwo = new Page<>(1, 10);
             queryWrapper.ne("USER_ID", 0);
-            queryWrapper.lt("PERCENTAGE", 1.00);
+            //queryWrapper.lt("PERCENTAGE", 1.00);
             queryWrapper.gt("END_TIME", downThreeDay());
             queryWrapper.orderByAsc("CREATE_TIME");
             if (three.size() > 0) {
@@ -146,7 +146,7 @@ public class TOrderController extends BaseController {
             QueryWrapper<TOrder> queryWrapper = new QueryWrapper<>();
             queryWrapper.ne("USER_ID", 0);
             queryWrapper.orderByAsc("CREATE_TIME");
-            queryWrapper.lt("PERCENTAGE", 1.00);
+            //queryWrapper.lt("PERCENTAGE", 1.00);
             queryWrapper.gt("END_TIME", downThreeDay());
             Page<TOrder> page = new Page<>(queryRequest.getPageNum(), queryRequest.getPageSize());
             page = orderService.page(page, queryWrapper);
