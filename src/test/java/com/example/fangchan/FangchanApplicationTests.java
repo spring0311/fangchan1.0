@@ -14,13 +14,12 @@ class FangchanApplicationTests extends BaseController {
 
     @Test
     void contextLoads() {
+
     }
 
     @Test
     void money() {
-        Double i = 300.07;
-        Integer j = 14;
-        Double k = i / j;
+        Double k = Math.pow(10, -4);
         System.err.println(k);
     }
 
